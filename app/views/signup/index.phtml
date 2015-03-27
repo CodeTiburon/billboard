@@ -7,5 +7,42 @@
 <?php $FOOTER .= ob_get_clean() ?>
 
 <!-- Index page -->
-<h2>Signup Page</h2>
+<h2>New User Registration</h2>
+
+<form action="/signup/submit" method="POST">
+    <div class="control-group">
+        <div class="control-label">
+            <label for="login">Login: </label>
+        </div>
+        <div class="control-container">
+            <input type="text" name="login" id="login" placeholder="Login" autocomplete="off" />
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            <label for="password">Password: </label>
+        </div>
+        <div class="control-container">
+            <input type="password" name="password" id="password" placeholder="Password" />
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            <label for="password-repeat">Password repeat: </label>
+        </div>
+        <div class="control-container">
+            <input type="password" name="password_repeat" id="password-repeat" placeholder="Password" />
+        </div>
+    </div>
+    <div class="button-group">
+        <div class="button-container">
+            <button type="submit">Sign Up!</button>
+        </div>
+    </div>
+</form>
+
+<div id="form-error"></div>
+
+<a href="/signin">Back To Login</a>
+
 

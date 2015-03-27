@@ -13,4 +13,9 @@ class SigninController extends AbstractController
     {
         $this->render('signin/index.phtml', []);
     }
+
+    public function submitAction()
+    {
+
+    }
 }

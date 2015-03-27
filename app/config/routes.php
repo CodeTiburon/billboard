@@ -2,6 +2,10 @@
 
 return [
     '/' => ['IndexController', 'index'],
+
     '/signin' => ['SigninController', 'index'],
-    '/signup' => ['SignupController', 'index']
+    '/signin/submit' => ['SigninController', 'submit'],
+
+    '/signup' => ['SignupController', 'index'],
+    '/signup/submit' => ['SignupController', 'submit']
 ];

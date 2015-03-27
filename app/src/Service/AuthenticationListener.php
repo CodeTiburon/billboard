@@ -15,7 +15,7 @@ class AuthenticationListener
     public function onBeforeRoute($uri)
     {
         if (empty($_SESSION['user_id'])) {
-            if ($uri !== '/signin' && $uri !== '/signup') {
+            if (!preg_match('#^/(?:signin|signup)#', $uri)) {
                 $this->toUserLogin();
             }
         } else {
