@@ -16,6 +16,11 @@ abstract class AbstractController implements
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * @var array Request input
+     */
+    protected $input;
+
     public function dispatch($action, $params)
     {
         $action = preg_replace('/[_\-\s]+/', ' ', $action);
@@ -31,6 +36,13 @@ abstract class AbstractController implements
         $this->$method(...$params);
     }
 
+    /**
+     * Render view
+     *
+     * @param $__path
+     * @param array $__vars
+     * @throws ViewNotFoundException
+     */
     public function render($__path, $__vars = [])
     {
         // Ideally this functionality should be moved to a separate class for example ViewRenderer
@@ -59,8 +71,56 @@ abstract class AbstractController implements
         echo $CONTENT;
     }
 
+    /**
+     * Output JSON
+     * @param array $vars
+     */
     public function json($vars)
     {
+        header('Content-Type: application/json');
         echo json_encode($vars);
+    }
+
+    /**
+     * @param null $name
+     * @param bool $default
+     * @return array|bool|mixed
+     */
+    public function getInput($name = null, $default = false)
+    {
+        if ($this->input === null) {
+            $contentType = $_SERVER["CONTENT_TYPE"];
+
+            if ($contentType === 'application/x-www-form-urlencoded' ||
+                $contentType === 'multipart/form-data'
+            ) {
+                $this->input = $_POST;
+            } elseif (preg_match('/\b(json|javascript)\b/i', $contentType)) {
+                $data = file_get_contents('php://input');
+                $this->input = json_decode($data, true);
+            } else {
+                $this->input = [];
+            }
+        }
+
+        if ($name) {
+            return isset($this->input[$name]) ? $this->input[$name] : $default;
+        } else {
+            return $this->input;
+        }
+    }
+
+    /**
+     * @param null $name
+     * @param bool $default
+     * @return bool
+     */
+    public function getQuery($name = null, $default = false)
+    {
+        if ($name) {
+            return isset($_GET[$name]) ? $_GET[$name] : $default;
+        } else {
+            return $_GET;
+        }
     }
 }

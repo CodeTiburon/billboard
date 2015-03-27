@@ -13,15 +13,10 @@ switch (php_sapi_name()) {
         break;
 
     case 'cli':
-        exec('php -S localhost:9999 "' . __FILE__ . '"');
+        exec('php -S localhost:9999 -t "' . __DIR__ . '" "' . __FILE__  .'"');
         break;
 
     default:
         echo '<h1>Error 403 - This script may be run only with CLI</h1>';
         break;
-}
-
-
-if (php_sapi_name() == 'cli-server') {
-
 }
