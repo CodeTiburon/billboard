@@ -14,9 +14,9 @@ CREATE TABLE IF NOT EXISTS `user`
   `first_name` VARCHAR(100) NOT NULL DEFAULT '',
   `last_name` VARCHAR(100) NOT NULL DEFAULT '',
 
-  -- timestamps
-  `time_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `time_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- timestamps
+  `time_created` DATETIME NOT NULL,
+  `time_updated` DATETIME NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8;
 
 
@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS `bulletin`
   `author_id` INT UNSIGNED NULL DEFAULT NULL, -- the reference to a user
 
   -- timestamps
-  `time_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `time_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `time_created` DATETIME NOT NULL,
+  `time_updated` DATETIME NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8;
 
 
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `comment`
   `level` INT UNSIGNED NOT NULL DEFAULT 0, -- current comment level
 
   -- timestamps
-  `time_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `time_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `time_created` DATETIME NOT NULL,
+  `time_updated` DATETIME NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8;
 
 
@@ -58,13 +58,13 @@ CREATE TABLE IF NOT EXISTS `category`
   `title` VARCHAR(255) NOT NULL DEFAULT '',
   `slug` VARCHAR(255) NOT NULL DEFAULT '',
 
-  -- Categories are stored with Nested Set algorithm
+-- Categories are stored with Nested Set algorithm
   `child_left` INT UNSIGNED NOT NULL DEFAULT 0,
   `child_right` INT UNSIGNED NOT NULL DEFAULT 0,
 
-  -- timestamps
-  `time_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `time_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- timestamps
+  `time_created` DATETIME NOT NULL,
+  `time_updated` DATETIME NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8;
 
 
@@ -75,8 +75,8 @@ CREATE TABLE IF NOT EXISTS `bulletin_category`
   `bulletin_id` INT UNSIGNED NOT NULL,
   `category_id` INT UNSIGNED NOT NULL,
 
-  -- timestamps
-  `time_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+-- timestamps
+  `time_created` DATETIME NOT NULL,
 
   UNIQUE KEY (`bulletin_id`, `category_id`)
 ) ENGINE=InnoDB CHARACTER SET utf8;

@@ -23,11 +23,11 @@ class EventManager implements EventManagerInterface
      */
     public function subscribe($event, $callback)
     {
-        if (is_callable($callback)) {
+        if (!is_callable($callback)) {
             throw new \InvalidArgumentException('$callback is not Callable');
         }
 
-        $subscribers[$event] = $callback;
+        $this->subscribers[$event][] = $callback;
         return $this;
     }
 
@@ -45,7 +45,7 @@ class EventManager implements EventManagerInterface
         }
 
         foreach ($this->subscribers[$event] as $callback) {
-            $callback(...$params);
+            call_user_func_array($callback, $params);
         }
 
         return true;

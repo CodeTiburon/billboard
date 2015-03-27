@@ -1,5 +1,8 @@
 <?php
 /**
+ * Company: CodeTiburon
+ * Date: 2014-03-27
+ *
  * Service Configurator Pattern Implementation
  */
 namespace Billboard;
@@ -27,9 +30,14 @@ class Configurator implements ConfiguratorInterface
         // Apply configurations
         $this->configurePhp();
         $this->configureControllers();
+        $this->configureMappers();
+        $this->configureServices();
         $this->configureRoutes();
         $this->configureViews();
         $this->configureDatabase();
+
+        // Attach Listeners to application events
+        $this->subscribeListeners();
     }
 
     /**
@@ -53,7 +61,32 @@ class Configurator implements ConfiguratorInterface
     {
         $this
             ->serviceLocator
-            ->registerClass('IndexController', 'Billboard\Controller\IndexController');
+            ->registerClass('IndexController', 'Billboard\Controller\IndexController')
+            ->registerClass('SigninController', 'Billboard\Controller\SigninController')
+            ->registerClass('SignupController', 'Billboard\Controller\SignupController');
+    }
+
+    /**
+     * Configure Mapper classes
+     */
+    public function configureMappers()
+    {
+        $this
+            ->serviceLocator
+            ->registerClass('BulletinMapper', 'Billboard\Model\BulletinMapper')
+            ->registerClass('CategoryMapper', 'Billboard\Model\CategoryMapper')
+            ->registerClass('CommentMapper', 'Billboard\Model\CommentMapper')
+            ->registerClass('UserMapper', 'Billboard\Model\UserMapper');
+    }
+
+    /**
+     * Configure Service classes
+     */
+    public function configureServices()
+    {
+        $this
+            ->serviceLocator
+            ->registerClass('AuthenticationListener', 'Billboard\Service\AuthenticationListener');
     }
 
     /**
@@ -97,5 +130,16 @@ class Configurator implements ConfiguratorInterface
                 $router->addRoute($path, $controller, $action);
             }
         }
+    }
+
+    public function subscribeListeners()
+    {
+        $this
+            ->serviceLocator
+            ->get('EventManager')
+            ->subscribe('BEFORE_ROUTE_MATCH', [
+                $this->serviceLocator->get('AuthenticationListener'),
+                'onBeforeRoute'
+            ]);
     }
 }

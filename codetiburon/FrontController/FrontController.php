@@ -45,41 +45,42 @@ class FrontController implements FrontControllerInterface
     {
         /** @var Router $router */
         $router = $this->serviceLocator->get('Router');
+        $eventManager = $this->eventManager;
 
         if (null === $uri) {
-            $uri = strtolower(trim($_SERVER['REQUEST_URI'], '/'));
+            $uri = strtolower($_SERVER['REQUEST_URI']);
         }
 
         // Try to find appropriate route
-        $this->eventManager->trigger('BEFORE_ROUTE_MATCH');
+        $eventManager->trigger('BEFORE_ROUTE_MATCH', $uri);
         $route = $router->match($uri);
-        $this->eventManager->trigger('AFTER_ROUTE_MATCH');
+        $eventManager->trigger('AFTER_ROUTE_MATCH', $uri);
 
         if (!$route) {
-            $this->eventManager->trigger('ROUTE_NOT_FOUND');
+            $this->eventManager->trigger('ROUTE_NOT_FOUND', $uri);
             throw new RouteNotFoundException($uri);
         }
 
-        $this->eventManager->trigger('BEFORE_CONTROLLER_RESOLVE');
+        $eventManager->trigger('BEFORE_CONTROLLER_RESOLVE', $route);
 
         try {
             // Resolve controller as a service
             $controller = $this->serviceLocator->get($route['controller']);
         } catch (ServiceNotFoundException $ex) {
-            $this->eventManager->trigger('CONTROLLER_NOT_FOUND');
+            $this->eventManager->trigger('CONTROLLER_NOT_FOUND', $route['controller']);
             throw new ControllerNotFoundException($uri);
         }
 
-        $this->eventManager->trigger('AFTER_CONTROLLER_RESOLVE');
+        $eventManager->trigger('AFTER_CONTROLLER_RESOLVE', $route);
 
         if (!($controller instanceof ControllerInterface)) {
             throw new \RuntimeException('Controller should be an instance of CodeTiburon\Controller\ControllerInterface');
         }
 
         // Dispatch to controller action
-        $this->eventManager->trigger('BEFORE_CONTROLLER_DISPATCH');
+        $eventManager->trigger('BEFORE_CONTROLLER_DISPATCH', $route);
         $controller->dispatch($route['action'], $route['matches']);
-        $this->eventManager->trigger('AFTER_CONTROLLER_DISPATCH');
+        $eventManager->trigger('AFTER_CONTROLLER_DISPATCH', $route);
     }
 
 

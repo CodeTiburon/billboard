@@ -57,15 +57,16 @@ abstract class AbstractController implements
         }
 
         extract($__vars);
+        $CONTENT = $HEADER = $FOOTER = '';
 
         ob_start();
-        require $__viewPath;
-        $CONTENT= ob_get_clean();
+        require($__viewPath);
+        $CONTENT = ob_get_clean();
 
         if ($__layoutPath) {
             ob_start();
-            require $__layoutPath;
-            $CONTENT= ob_get_clean();
+            require($__layoutPath);
+            $CONTENT = ob_get_clean();
         }
 
         echo $CONTENT;

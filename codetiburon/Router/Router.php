@@ -31,6 +31,7 @@ class Router implements  RouterInterface
      */
     public function match($uri)
     {
+        $uri = trim($uri, '/');
         $matches = [];
 
         foreach ($this->routes as $route) {

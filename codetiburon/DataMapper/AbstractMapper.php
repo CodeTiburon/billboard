@@ -12,6 +12,17 @@ class AbstractMapper implements MapperInterface
     protected $table = null;
 
     /**
+     * Find by Id
+     *
+     * @param int $id
+     * @return array
+     */
+    public function find($id)
+    {
+        return $this->fetchOne(['id' => $id]);
+    }
+
+    /**
      * @param array $where
      * @return array
      */
