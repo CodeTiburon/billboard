@@ -29,13 +29,13 @@ trait SingletonTrait
      */
     public static function i()
     {
-        return self::getInstance();
+        return static::getInstance();
     }
 
     /**
      * Protected constructor
      */
-    protected function __contructor()
+    protected function __construct()
     {
     }
 }

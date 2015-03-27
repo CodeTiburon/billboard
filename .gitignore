@@ -2,4 +2,4 @@
 .bundle
 .idea
 
-app/config/local.php
+app/config/db.php

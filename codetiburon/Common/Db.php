@@ -11,7 +11,7 @@ class Db extends \PDO
 {
     use SingletonTrait;
 
-    protected function __costructor($host, $db, $user, $pass)
+    public function __construct($host, $db, $user, $pass)
     {
         parent::__construct("mysql:host=$host;dbname=$db", $user, $pass, [
             self::ATTR_DEFAULT_FETCH_MODE => self::FETCH_ASSOC,

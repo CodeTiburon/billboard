@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'host' => 'localhost',
-    'db' => 'billboard',
-    'user' => 'root',
-    'pass' => ''
+    'host' => '195.191.25.60', // CodeTiburon Server
+    'db'   => 'billboard',
+    'user' => 'billboard',
+    'pass' => 'billboard_pass'
 ];
