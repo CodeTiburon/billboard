@@ -3,7 +3,7 @@
  * Company: CodeTiburon
  * Date: 2014-03-27
  *
- * Singleton trait
+ * Singleton with arguments trait
  */
 namespace CodeTiburon\Common;
 
@@ -12,12 +12,14 @@ trait SingletonTrait
     protected static $instance;
 
     /**
-     * @return $this
+     * @param null|array $args
+     *
+     * @return static
      */
-    public static function getInstance()
+    public static function getInstance(...$args)
     {
         return static::$instance === null
-            ? (static::$instance = new static())
+            ? (static::$instance = new static(...$args))
             :  static::$instance;
     }
 

@@ -21,5 +21,5 @@ Design Patterns that should be used in the project:
 5. Service Locator
 6. Service Configurator
 7. Factory ( Abstract Factory Pattern may be added also )
-8. Singleton ( it is optional as we have Service Locator )
-9. ActiveDirectory / Repository
+8. Singleton with arguments
+9. DataMapper

@@ -4,6 +4,7 @@
  */
 namespace Billboard;
 
+use CodeTiburon\Common\Db;
 use CodeTiburon\ServiceLocator\ConfiguratorInterface;
 use CodeTiburon\ServiceLocator\ServiceLocatorInterface;
 
@@ -72,7 +73,14 @@ class Configurator implements ConfiguratorInterface
      */
     public function configureDatabase()
     {
-        // TODO: Database configurations
+        $dbparams = include APP_PATH . '/config/db.php';
+
+        Db::getInstance(
+            $dbparams['host'],
+            $dbparams['db'],
+            $dbparams['user'],
+            $dbparams['pass']
+        );
     }
 
     /**

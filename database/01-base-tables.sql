@@ -8,7 +8,7 @@ CREATE DATABASE IF NOT EXISTS billboard
 
 CREATE TABLE IF NOT EXISTS `user`
 (
-  `id` INT UNSIGNED NOT NULL PRIMARY KEY,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `login` VARCHAR(50) NOT NULL DEFAULT '',
   `password` VARCHAR(50) NOT NULL DEFAULT '' COLLATE utf8_bin,
   `first_name` VARCHAR(100) NOT NULL DEFAULT '',
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `user`
 -- The table to store comments
 CREATE TABLE IF NOT EXISTS `bulletin`
 (
-  `id` INT UNSIGNED NOT NULL PRIMARY KEY,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(255) NOT NULL DEFAULT '',
   `content` VARCHAR(1000) NOT NULL DEFAULT '',
   `author_id` INT UNSIGNED NULL DEFAULT NULL, -- the reference to a user
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `bulletin`
 -- The table to store bulletin's comments
 CREATE TABLE IF NOT EXISTS `comment`
 (
-  `id` INT UNSIGNED NOT NULL PRIMARY KEY,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `content` VARCHAR(1000) NOT NULL DEFAULT '',
   `author_id` INT UNSIGNED NULL DEFAULT NULL, -- the reference to a user
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `comment`
 -- The table to store categories bulletins belong to
 CREATE TABLE IF NOT EXISTS `category`
 (
-  `id` INT UNSIGNED NOT NULL PRIMARY KEY,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(255) NOT NULL DEFAULT '',
   `slug` VARCHAR(255) NOT NULL DEFAULT '',
 
@@ -71,11 +71,12 @@ CREATE TABLE IF NOT EXISTS `category`
 -- The table to store categories bulletins belong to
 CREATE TABLE IF NOT EXISTS `bulletin_category`
 (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `bulletin_id` INT UNSIGNED NOT NULL,
   `category_id` INT UNSIGNED NOT NULL,
 
   -- timestamps
   `time_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY (`bulletin_id`, `category_id`)
+  UNIQUE KEY (`bulletin_id`, `category_id`)
 ) ENGINE=InnoDB CHARACTER SET utf8;
