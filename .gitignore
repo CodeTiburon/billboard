@@ -1,0 +1,5 @@
+.DS_Store
+.bundle
+.idea
+
+app/config/local.php

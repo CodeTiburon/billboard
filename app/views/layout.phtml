@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>CodeTiburon Billboard</title>
+    <meta name="description" content="CodeTiburon Billboard Demo Project">
+    <meta name="author" content="CodeTiburon">
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <script type="application/javascript" src="/js/jquery.js"></script>
+    <script type="application/javascript" src="/js/layout.js"></script>
+
+    <?= isset($HEADER) ? $HEADER : '' ?>
+</head>
+
+<body>
+
+<div id="page">
+    <?= isset($CONTENT) ? $CONTENT : 'CONTENT_PLACEHODER' ?>
+</div>
+
+<?= isset($FOOTER) ? $FOOTER : '' ?>
+</body>
+</html>
