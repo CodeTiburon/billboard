@@ -38,7 +38,7 @@ class AbstractMapper implements MapperInterface
      */
     public function fetchAll($where)
     {
-        $stmt = Db::i()->query("SELECT * FROM {$this->table} {$this->_whereToSql($where)}");
+        $stmt = Db::i()->query("SELECT * FROM {$this->table} {$this->whereToSql($where)}");
         return $stmt->fetchAll();
     }
 
@@ -97,7 +97,7 @@ class AbstractMapper implements MapperInterface
      */
     public function delete($where)
     {
-        $stmt = Db::i()->query("DELETE FROM {$this->table} {$this->_whereToSql($where)} LIMIT 1");
+        $stmt = Db::i()->query("DELETE FROM {$this->table} {$this->whereToSql($where)} LIMIT 1");
         return $stmt->rowCount();
     }
 
