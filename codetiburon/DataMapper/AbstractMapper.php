@@ -28,7 +28,7 @@ class AbstractMapper implements MapperInterface
      */
     public function fetchOne($where)
     {
-        $stmt = Db::i()->query("SELECT * FROM {$this->table} {$this->_whereToSql($where)} LIMIT 1");
+        $stmt = Db::i()->query("SELECT * FROM {$this->table} {$this->whereToSql($where)} LIMIT 1");
         return $stmt->fetch();
     }
 
@@ -68,6 +68,7 @@ class AbstractMapper implements MapperInterface
         $sql .= implode( ',', array_map([Db::i(), 'quoteIdentifier'], array_keys($data)) );
         $sql .= ') VALUES (';
         $sql .= implode( ',', array_map([Db::i(), 'quoteValue'], array_values($data)) );
+        $sql .= ')';
 
         Db::i()->query($sql);
         return Db::i()->lastInsertId();

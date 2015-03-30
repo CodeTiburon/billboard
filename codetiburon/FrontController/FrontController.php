@@ -43,9 +43,11 @@ class FrontController implements FrontControllerInterface
      */
     public function dispatch($uri = null)
     {
+        $eventManager = $this->eventManager;
+        $eventManager->trigger('BOOTSTRAP');
+
         /** @var Router $router */
         $router = $this->serviceLocator->get('Router');
-        $eventManager = $this->eventManager;
 
         if (null === $uri) {
             $uri = strtolower($_SERVER['REQUEST_URI']);

@@ -86,7 +86,8 @@ class Configurator implements ConfiguratorInterface
     {
         $this
             ->serviceLocator
-            ->registerClass('AuthenticationListener', 'Billboard\Service\AuthenticationListener');
+            ->registerClass('AuthSubscriber', 'Billboard\Service\AuthSubscriber')
+            ->registerClass('UserService', 'Billboard\Service\UserService');
     }
 
     /**
@@ -137,9 +138,12 @@ class Configurator implements ConfiguratorInterface
         $this
             ->serviceLocator
             ->get('EventManager')
-            ->subscribe('BEFORE_ROUTE_MATCH', [
-                $this->serviceLocator->get('AuthenticationListener'),
-                'onBeforeRoute'
-            ]);
+            ->subscribe('BOOTSTRAP', function() {
+                session_start();
+            })
+            ->subscribe('VIEW_VARIABLES', function($vars) {
+                $vars['user'] = $this->serviceLocator->get('User');
+            })
+            ->subscribe($this->serviceLocator->get('AuthSubscriber'));
     }
 }

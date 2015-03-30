@@ -17,17 +17,22 @@ class EventManager implements EventManagerInterface
     /**
      * Subscribe a listener
      *
-     * @param string $event
+     * @param string|EventSubscriberInterface $eventOrSubscriber
      * @param Callable $callback
      * @return $this
      */
-    public function subscribe($event, $callback)
+    public function subscribe($eventOrSubscriber, $callback = null)
     {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('$callback is not Callable');
+        if ($eventOrSubscriber instanceof EventSubscriberInterface) {
+            $eventOrSubscriber->subscribe($this);
+        } else {
+            if (!is_callable($callback)) {
+                throw new \InvalidArgumentException('$callback is not Callable');
+            }
+
+            $this->subscribers[$eventOrSubscriber][] = $callback;
         }
 
-        $this->subscribers[$event][] = $callback;
         return $this;
     }
 

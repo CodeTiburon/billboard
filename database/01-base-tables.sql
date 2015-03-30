@@ -10,9 +10,7 @@ CREATE TABLE IF NOT EXISTS `user`
 (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `login` VARCHAR(50) NOT NULL DEFAULT '',
-  `password` VARCHAR(50) NOT NULL DEFAULT '' COLLATE utf8_bin,
-  `first_name` VARCHAR(100) NOT NULL DEFAULT '',
-  `last_name` VARCHAR(100) NOT NULL DEFAULT '',
+  `password` VARCHAR(255) NOT NULL DEFAULT '' COLLATE utf8_bin,
 
 -- timestamps
   `time_created` DATETIME NOT NULL,

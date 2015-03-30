@@ -16,7 +16,7 @@ Design Patterns that should be used in the project:
 1. MVC
 2. FrontController
 3. Router
-3. Observer
+3. Observer, Subscriber
 4. Dependency Injection
 5. Service Locator
 6. Service Configurator

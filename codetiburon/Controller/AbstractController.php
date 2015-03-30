@@ -37,7 +37,7 @@ abstract class AbstractController implements
     }
 
     /**
-     * Render view
+     * Render specified view
      *
      * @param $__path
      * @param array $__vars
@@ -56,7 +56,14 @@ abstract class AbstractController implements
             throw new ViewNotFoundException($__path);
         }
 
-        extract($__vars);
+        // It should be an object to have an ability to modify in the event handlers
+        $__vars = new \ArrayObject($__vars, \ArrayObject::ARRAY_AS_PROPS);
+        $this
+            ->serviceLocator
+            ->get('EventManager')
+            ->trigger('VIEW_VARIABLES', $__vars);
+
+        extract($__vars->getArrayCopy());
         $CONTENT = $HEADER = $FOOTER = '';
 
         ob_start();
@@ -82,6 +89,12 @@ abstract class AbstractController implements
         echo json_encode($vars);
     }
 
+    public function redirect($url)
+    {
+        header('Location: ' . $url);
+        exit();
+    }
+
     /**
      * @param null $name
      * @param bool $default
@@ -90,13 +103,15 @@ abstract class AbstractController implements
     public function getInput($name = null, $default = false)
     {
         if ($this->input === null) {
-            $contentType = $_SERVER["CONTENT_TYPE"];
+            $contentType = isset($_SERVER["CONTENT_TYPE"])
+                ? $_SERVER["CONTENT_TYPE"]
+                : 'application/x-www-form-urlencoded';
 
             if ($contentType === 'application/x-www-form-urlencoded' ||
                 $contentType === 'multipart/form-data'
             ) {
                 $this->input = $_POST;
-            } elseif (preg_match('/\b(json|javascript)\b/i', $contentType)) {
+            } elseif (preg_match('/\b(?:json|javascript)\b/i', $contentType)) {
                 $data = file_get_contents('php://input');
                 $this->input = json_decode($data, true);
             } else {

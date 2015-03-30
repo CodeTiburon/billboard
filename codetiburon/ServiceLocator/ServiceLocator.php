@@ -171,7 +171,7 @@ class ServiceLocator implements ServiceLocatorInterface
     {
         $name = $this->canonicalize($name);
 
-        if (isset($this->instances[$name])) {
+        if (array_key_exists($name, $this->instances)) {
             return $this->instances[$name];
         }
 

@@ -8,7 +8,16 @@ $(function() {
       if (data.status) {
         window.location = '/';
       } else {
-        $('#data').text(data.error).stop().fadeOut();
+        $('#form-error')
+          .text(data.error)
+          .stop().show()
+          .fadeOut(5000);
+      }
+    },
+
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (console.log) {
+        console.log(textStatus, errorThrown);
       }
     }
   });
